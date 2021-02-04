@@ -2,13 +2,12 @@ import axios from "axios";
 
 const defaultConfig = {
   method: "GET",
-  cancelDuplicated: false, 
-  duplicatedKey: "", 
+  cancelDuplicated: false,
+  duplicatedKey: "",
   retry: 0,
   retryDelay: 200,
   retryDelayRise: true,
-  timeout: -1,
-  cache: false
+  cache: false,
 };
 
 const ERROR_TYPE = {
@@ -89,14 +88,11 @@ class MAxios {
     retryCount += 1;
     config.__retryCount = retryCount;
 
-    if (retryCount === retry) {
-      config.timeout = 15000;
-    }
     // 延时重发
     const delay = isFunction(retryDelay)
       ? retryDelay(retryCount)
       : retryDelay * (retryDelayRise ? retryCount : 1);
-      
+
     const retryTask = new Promise((resolve) => {
       setTimeout(() => {
         resolve();
@@ -109,22 +105,22 @@ class MAxios {
   }
   /**
    * 获取response缓存
-   * @param {*} config 
+   * @param {*} config
    */
   getResponseCache(config) {
     const key = this.getDuplicatedKey(config);
-    if(this.responseCacheMap.has(key)) {
-      return this.responseCacheMap.get(key)
+    if (this.responseCacheMap.has(key)) {
+      return this.responseCacheMap.get(key);
     }
     return null;
   }
   /**
    * 设置response缓存
-   * @param {*} config 
-   * @param {*} response 
+   * @param {*} config
+   * @param {*} response
    */
   setResponseCache(config, response) {
-    if(!config.cache) {
+    if (!config.cache) {
       return;
     }
     const key = this.getDuplicatedKey(config);
@@ -199,12 +195,11 @@ class MAxios {
   request(options) {
     const config = Object.assign({}, defaultConfig, options);
 
-
-    if(config.cache) {
+    if (config.cache) {
       const responseCache = this.getResponseCache(config);
       if (responseCache) {
-        console.log('数据来自缓存: ')
-        return Promise.resolve(responseCache)
+        console.log("数据来自缓存: ");
+        return Promise.resolve(responseCache);
       }
     }
 
