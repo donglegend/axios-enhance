@@ -3,7 +3,7 @@ import axios from "axios";
 const defaultConfig = {
   method: "GET",
   cancelDuplicated: false,
-  duplicatedKey: "",
+  duplicatedKey: ({ method, url }) => `${method.toLocaleLowerCase()}${url}`,
   retry: 0,
   retryDelay: 200,
   retryDelayRise: true,
@@ -27,12 +27,8 @@ class MAxios {
    * 生成标识请求的唯一key
    */
   getDuplicatedKey(config) {
-    const { duplicatedKey, url, method } = config;
-    let customKey = "";
-    if (duplicatedKey && isFunction(duplicatedKey)) {
-      customKey = duplicatedKey(config);
-    }
-    return customKey || `${method.toLocaleLowerCase()}${url}`;
+    const { duplicatedKey = () => "" } = config;
+    return duplicatedKey(config);
   }
   /**
    * 添加请求

@@ -12,12 +12,10 @@ interface IConfig extends AxiosRequestConfig {
   __retryCount?: number;
 }
 
-const isFunction = (p: any) => typeof p === 'function';
-
-const defaultConfig = {
+const defaultConfig: IConfig = {
   method: 'get',
   cancelDuplicated: false,
-  duplicatedKey: '',
+  duplicatedKey: ({ method, url }) => `${(method as Method).toLocaleLowerCase()}${url}`,
   retry: 0,
   retryDelay: 200,
   retryDelayRise: true,
@@ -37,12 +35,8 @@ class MAxios {
    * 生成标识请求的唯一key
    */
   private getDuplicatedKey(config: IConfig) {
-    const { duplicatedKey, url, method } = config;
-    let customKey = '';
-    if (duplicatedKey && isFunction(duplicatedKey)) {
-      customKey = duplicatedKey(config);
-    }
-    return customKey || `${(method as Method).toLocaleLowerCase()}${url}`;
+    const { duplicatedKey = () => '' } = config;
+    return duplicatedKey(config);
   }
   /**
    * 添加请求
@@ -123,7 +117,6 @@ class MAxios {
       }, delay);
     });
     return retryTask.then(() => {
-      console.log('开始retry: ', config.__retryCount);
       return instance.request(config);
     });
   }
@@ -195,8 +188,6 @@ class MAxios {
         if (axios.isCancel(error)) {
           return Promise.reject(error.message);
         } else {
-          // Do something with response error outside status code 2xx
-
           // retry 重试逻辑
           if (config.retry > 0) {
             return this.retry({ instance, config, error });
@@ -222,7 +213,6 @@ class MAxios {
     if (config.cache) {
       const responseCache = this.getResponseCache(config);
       if (responseCache) {
-        console.log('数据来自缓存: ');
         return Promise.resolve(responseCache);
       }
     }
