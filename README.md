@@ -48,4 +48,16 @@ for (let index = 0; index < 10; index++) {
     })
     .finally(() => {});
 }
+
+setTimeout(() => {
+  fetch
+    .request({
+      url: "https://api.github.com/users/donglegend",
+      cache: true,
+    })
+    .then((res) => {
+      console.log(res);
+    });
+}, 3000);
+
 ```
