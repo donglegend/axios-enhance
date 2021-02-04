@@ -21,3 +21,25 @@
 | retryDelayRise  | 是否启动延迟递增 | boolean | true |
 
 
+### demo
+```js
+import fetch from "./index";
+
+for (let index = 0; index < 10; index++) {
+  fetch
+    .request({
+      url: "https://api.github.com/users/donglegend",
+      cache: true,
+      cancelDuplicated: true,
+      retry: 3,
+      retryDelay: 200,
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log("error", err);
+    })
+    .finally(() => {});
+}
+```
