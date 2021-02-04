@@ -1,0 +1,14 @@
+{
+  "name": "axios-enhance",
+  "version": "1.0.0",
+  "description": "axios增强,支持请求数据缓存,取消重复请求,自动重试等功能",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "donglegend",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
