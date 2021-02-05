@@ -100,9 +100,6 @@ class MAxios {
     retryCount += 1;
     config.__retryCount = retryCount;
 
-    if (retryCount === retry) {
-      config.timeout = 15000;
-    }
     // 延时重发
     let delay = 0;
     if (typeof retryDelay === 'number') {

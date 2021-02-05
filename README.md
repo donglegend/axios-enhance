@@ -20,8 +20,8 @@ index.ts
 |  属性   | 说明  | 类型 | 默认值 |
 |  ----  | ----  | ----  |  ----  | 
 | cache  | 是否启动缓存能力 | boolean | false |
-| cancelDuplicated  | 是否取消重复请求 | boolean | true |
-| duplicatedKey  | 对请求设置唯一key | Function | null |
+| cancelDuplicated  | 是否取消重复请求 | boolean | false |
+| duplicatedKey  | 对请求设置唯一key | Function | `${method}${url}` |
 | retry  | 重试次数 | number | 0 |
 | retryDelay  | 重试延迟，单位ms | number | 200 |
 | retryDelayRise  | 是否启动延迟递增 | boolean | true |
