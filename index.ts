@@ -219,5 +219,5 @@ class MAxios {
     return instance.request(config);
   }
 }
-
+// 单例模式 的 导出
 export default new MAxios();
